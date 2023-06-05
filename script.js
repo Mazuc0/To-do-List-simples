@@ -4,8 +4,21 @@ const alertaText = document.getElementById('alerta');
 
 const body = document.querySelector('body');
 
+const iconTheme = document.getElementById('troca-de-tema');
+
 function toggleTheme() {
     document.body.classList.toggle('light-theme');
+
+
+    if (document.body.classList.value == 'light-theme') {
+        iconTheme.innerHTML = `<span class="material-symbols-outlined">
+            dark_mode
+            </span>`
+    } else {
+        iconTheme.innerHTML = `<span class="material-symbols-outlined">
+        light_mode
+        </span>`
+    }
 }
 
 function validateIfExistsNewTask() {
@@ -21,22 +34,22 @@ function newTask() {
     input.style.border = ''
 
     //Validação
-    if(!input.value) {
+    if (!input.value) {
         input.style.border = '1px solid white'
         alertaText.innerHTML = 'Digite algo para adcionar a sua lista.';
-    } 
-    else if(validateIfExistsNewTask()){
-        alertaText.innerHTML = 'Já existe uma tarefa com esse nome.' ;
+    }
+    else if (validateIfExistsNewTask()) {
+        alertaText.innerHTML = 'Já existe uma tarefa com esse nome.';
     }
     else {
         //Adiconar tarefas (Pegando infos do localStorage)
 
-         let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
-         values.push({
-             name: input.value
-         })
-         localStorage.setItem(localStorageKey,JSON.stringify(values))
-         showValue()
+        let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
+        values.push({
+            name: input.value
+        })
+        localStorage.setItem(localStorageKey, JSON.stringify(values))
+        showValue()
     }
     input.value = ''
 }
@@ -47,8 +60,7 @@ function showValue() {
 
     list.innerHTML = ''
 
-    for(let i = 0; i <values.length; i++)
-    {
+    for (let i = 0; i < values.length; i++) {
         list.innerHTML += `<li>${values[i]['name']}<div class='div-btn'><button id='btn-ok' onclick='removeItem("${values[i]['name']}")'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
       </svg></button><button id='btn-del' onclick='removeItem("${values[i]['name']}")'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -58,14 +70,14 @@ function showValue() {
     alertaText.innerHTML = ""
 }
 
-function removeItem(data){
+function removeItem(data) {
     let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]")
 
     let index = values.findIndex(x => x.name == data);
 
-    values.splice(index,1)
+    values.splice(index, 1)
 
-    localStorage.setItem(localStorageKey,JSON.stringify(values))
+    localStorage.setItem(localStorageKey, JSON.stringify(values))
 
     alertaText.innerHTML = ""
 
